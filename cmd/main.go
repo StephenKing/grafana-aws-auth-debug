@@ -18,11 +18,12 @@ func Execute() {
 
 	cfg, err := authConfig.GetConfig(ctx, authSettings)
 	if err != nil {
-		log.Fatalf("Failed to get AWS auth settings: %v", err)
+		log.Fatalf("Failed to get AWS config: %v", err)
 		return
 	}
 
-	log.Printf("AWS auth succeeded. Region: %v", cfg.Region)
+	creds, err := cfg.Credentials.Retrieve(ctx)
+	log.Printf("AWS config worked. Region: %v. AccessKey: %v. CredsSource: %v", cfg.Region, creds.AccessKeyID, creds.Source)
 
 	stsClient := sts.NewFromConfig(cfg)
 
