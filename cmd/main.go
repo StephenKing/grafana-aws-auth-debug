@@ -15,7 +15,8 @@ func Execute() {
 	authConfig := awsauth.NewConfigProvider()
 
 	authSettings := awsauth.Settings{
-		Region: "eu-west-1",
+		Region:             "eu-west-1",
+		CredentialsProfile: "default",
 	}
 
 	cfg, err := authConfig.GetConfig(ctx, authSettings)
