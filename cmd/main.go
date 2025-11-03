@@ -14,7 +14,9 @@ func Execute() {
 
 	authConfig := awsauth.NewConfigProvider()
 
-	authSettings := awsauth.Settings{}
+	authSettings := awsauth.Settings{
+		Region: "eu-west-1",
+	}
 
 	cfg, err := authConfig.GetConfig(ctx, authSettings)
 	if err != nil {
