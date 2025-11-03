@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: steffen-grafana-aws-auth-debug
+  labels:
+    app: steffen-grafana-aws-auth-debug
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: steffen-grafana-aws-auth-debug
+  template:
+    metadata:
+      name: steffen-grafana-aws-auth-debug
+      labels:
+        app: steffen-grafana-aws-auth-debug
+    spec:
+      containers:
+        - name: steffen-grafana-aws-auth-debug
+          image: ghcr.io/stephenking/grafana-aws-auth-debug:main
+          imagePullPolicy: Always
+      restartPolicy: Always
+      
