@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"context"
+	"fmt"
+	"os"
 
 	"log"
 
@@ -13,6 +15,11 @@ import (
 
 func Execute() {
 	ctx := context.Context(context.Background())
+
+	log.Printf("Env vars")
+	for _, pair := range os.Environ() {
+		fmt.Println(pair)
+	}
 
 	log.Printf("Trying regular AWS SDK...")
 
