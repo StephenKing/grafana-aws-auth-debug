@@ -8,6 +8,6 @@ COPY . .
 
 RUN go build
 
-FROM scratch
+FROM public.ecr.aws/ubuntu/ubuntu:edge
 COPY --from=builder /app/grafana-aws-auth-debug /grafana-aws-auth-debug
 ENTRYPOINT ["/grafana-aws-auth-debug"]

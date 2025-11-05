@@ -37,7 +37,6 @@ func Execute() {
 	cfg, err = authConfig.GetConfig(ctx, authSettings)
 	if err != nil {
 		log.Fatalf("Failed to get AWS config: %v", err)
-		return
 	}
 
 	creds, err := cfg.Credentials.Retrieve(ctx)
