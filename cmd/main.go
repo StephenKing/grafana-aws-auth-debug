@@ -21,17 +21,6 @@ func Execute() {
 		fmt.Println(pair)
 	}
 
-	log.Printf("Trying regular AWS SDK...")
-
-	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("eu-west-1"))
-	if err != nil {
-		log.Fatalf("unable to load SDK config, %v", err)
-	}
-
-	if err = tryStsGetCallerIdentity(ctx, cfg); err != nil {
-		log.Fatalf("Failed to get sts caller identity: %v", err)
-	}
-
 	log.Printf("Trying Grafana...")
 
 	authConfig := awsauth.NewConfigProvider()
@@ -41,13 +30,24 @@ func Execute() {
 		CredentialsProfile: "default",
 	}
 
-	cfg, err = authConfig.GetConfig(ctx, authSettings)
+	cfg, err := authConfig.GetConfig(ctx, authSettings)
 	if err != nil {
 		log.Fatalf("Failed to get AWS config: %v", err)
 	}
 
 	creds, err := cfg.Credentials.Retrieve(ctx)
 	log.Printf("AWS config worked. Region: %v. AccessKey: %v. CredsSource: %v", cfg.Region, creds.AccessKeyID, creds.Source)
+
+	if err = tryStsGetCallerIdentity(ctx, cfg); err != nil {
+		log.Fatalf("Failed to get sts caller identity: %v", err)
+	}
+
+	log.Printf("Trying regular AWS SDK...")
+
+	cfg, err = config.LoadDefaultConfig(context.TODO(), config.WithRegion("eu-west-1"))
+	if err != nil {
+		log.Fatalf("unable to load SDK config, %v", err)
+	}
 
 	if err = tryStsGetCallerIdentity(ctx, cfg); err != nil {
 		log.Fatalf("Failed to get sts caller identity: %v", err)
